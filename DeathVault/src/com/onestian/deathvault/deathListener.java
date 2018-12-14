@@ -1,19 +1,19 @@
 package com.onestian.deathvault;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.material.Chest;
 
 public class deathListener implements Listener {
 	
@@ -27,30 +27,31 @@ public class deathListener implements Listener {
 		
 		if (event.getEntityType() == EntityType.PLAYER) {
 			ply = event.getEntity().getName();
-			playerWorld.getWorldFolder().getName();
+			Player pl = deathvault.thisPlugin.getServer().getPlayer(ply);
+			playerWorld = pl.getWorld();
 			deathLoc = event.getEntity().getLocation();
 			
-			Player pl = deathvault.thisPlugin.getServer().getPlayer(ply);
+			List<ItemStack> iStack = event.getDrops();
+			ItemStack[] i2ForChest = iStack.toArray(new ItemStack[0]);			
 			
-			PlayerInventory inv = (PlayerInventory) pl.getInventory();
-			ItemStack[] iStack = inv.getContents();
+			
+			event.getDrops().removeAll(iStack);
+			
 			
 			int x = deathLoc.getBlockX();
 			int y = deathLoc.getBlockY();
 			int z = deathLoc.getBlockZ();
 			
-			y++;
 			
 			Location deathChest = new Location(playerWorld, x, y, z);
-			locBlock = (Block) deathChest;
+			locBlock = deathChest.getBlock();
 			
 			locBlock.setType(Material.CHEST);
 			
-			if (locBlock instanceof Chest) {
-				Chest chest = (Chest) locBlock.getState();
-				Inventory cInv = ((HumanEntity) chest).getInventory();
-				cInv.setContents(iStack);
-			}
+			Chest chest = (Chest) locBlock.getState();
+			Inventory cInv = chest.getInventory();
+			cInv.setContents(i2ForChest);
+			
 			
 			pl.sendMessage("[DeathVault] Chest has been spawned with your items, where you died.");
 			pl.sendMessage("[DeathVault] You died.. Get to your chest! Quick! Before someone else gets it!");
