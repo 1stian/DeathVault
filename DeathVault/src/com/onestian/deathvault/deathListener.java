@@ -34,9 +34,7 @@ public class deathListener implements Listener {
 			List<ItemStack> iStack = event.getDrops();
 			ItemStack[] i2ForChest = iStack.toArray(new ItemStack[0]);			
 			
-			
 			event.getDrops().removeAll(iStack);
-			
 			
 			int x = deathLoc.getBlockX();
 			int y = deathLoc.getBlockY();
@@ -53,8 +51,8 @@ public class deathListener implements Listener {
 			cInv.setContents(i2ForChest);
 			
 			
-			pl.sendMessage("[DeathVault] Chest has been spawned with your items, where you died.");
-			pl.sendMessage("[DeathVault] You died.. Get to your chest! Quick! Before someone else gets it!");
+			messageSender.messagePlayer("Chest has been spawned with your items, where you died.", ply);
+			messageSender.messagePlayer("You died.. Get to your chest! Quick! Before someone else gets it!", ply);
 		}
 	}
 }
