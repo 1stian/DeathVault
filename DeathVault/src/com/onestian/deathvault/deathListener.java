@@ -39,7 +39,7 @@ public class deathListener implements Listener {
 			
 			final ItemStack[] items = content.toArray(new ItemStack[content.size()]);
 			
-			//Placing chests on death location
+			//Getting location for the chest.
 			final double x = loc.getX();
 			
 			final Location x1 = loc.clone();
@@ -47,16 +47,20 @@ public class deathListener implements Listener {
 			
 			x2.setX(x + 1);
 			
+			
+			//Placing chests
 			for (final Location cLoc : new Location[] {x1,x2}) {
 				cLoc.getBlock().setType(Material.CHEST);
 			}
-						
+					
+			//Updating the chest
 			for (final Location cLoc : new Location[] {x1,x2}) {
 				Chest chest = (Chest) cLoc.getBlock().getState();
 				chest.setCustomName(player.getName() + "'s death chest!");
 				chest.update(true, true);
 			}
 			
+			//Adding items to chest
 			Bukkit.getScheduler().runTaskLaterAsynchronously(deathvault.thisPlugin, new Runnable(){
 
 				@Override
@@ -72,10 +76,13 @@ public class deathListener implements Listener {
 				
 			}, 10);
 			
+			//Clearing the drops. So it won't drop on the ground.
 			event.getDrops().clear();
 			
-			deathvault.thisPlugin.getLogger().info(player.getLocation().getBlock().toString());
+			//Debug line
+			//deathvault.thisPlugin.getLogger().info(player.getLocation().getBlock().toString());
 			
+			//Sending messages to player. With chest location as well.
 			messageSender.messagePlayer("You died.. Get to your chest! Quick! Before someone else gets it!", player);
 			messageSender.messagePlayer("Coordinates for your chest: x: " + ChatColor.RED + loc.getBlockX() + 
 					ChatColor.GREEN + " y: " + ChatColor.RED + loc.getBlockY() + ChatColor.GREEN + " z: " + ChatColor.RED + loc.getBlockZ(), player);
