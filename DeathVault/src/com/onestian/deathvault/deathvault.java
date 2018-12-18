@@ -17,6 +17,7 @@ public class deathvault extends JavaPlugin {
 		
 		//Listener
 		getServer().getPluginManager().registerEvents(new deathListener(), this);
+		getServer().getPluginManager().registerEvents(new chestListener(), this);
 		
 	}
 	
