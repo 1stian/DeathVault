@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -45,8 +44,7 @@ public class deathListener implements Listener {
 			final Location x1 = loc.clone();
 			final Location x2 = loc.clone();
 			
-			x2.setX(x + 1);
-			
+			x2.setX(x + 1);			
 			
 			//Placing chests
 			for (final Location cLoc : new Location[] {x1,x2}) {
@@ -55,7 +53,7 @@ public class deathListener implements Listener {
 					
 			//Updating the chest
 			for (final Location cLoc : new Location[] {x1,x2}) {
-				Chest chest = (Chest) cLoc.getBlock().getState();
+				Chest chest = (Chest) cLoc.getBlock().getState();		
 				chest.setCustomName(player.getName() + "'s death chest!");
 				chest.update(true, true);
 			}
