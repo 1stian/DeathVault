@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -47,16 +48,34 @@ public class deathListener implements Listener {
 			x2.setX(x + 1);			
 			
 			//Placing chests
-			for (final Location cLoc : new Location[] {x1,x2}) {
-				cLoc.getBlock().setType(Material.CHEST);
+			int itemAmount = 0;
+			for (final ItemStack item : items) {
+				itemAmount++;
 			}
+			//Single chest
+			if (itemAmount < 27) {
+				x1.getBlock().setType(Material.CHEST);
+			}else {
+				//Double Chest
+				x1.getBlock().setType(Material.CHEST);
+				x1.getBlock().getRelative(BlockFace.NORTH).setType(Material.CHEST);
+			}
+			
+			
+//			for (final Location cLoc : new Location[] {x1,x2}) {
+//				cLoc.getBlock().setType(Material.CHEST);
+//			}
 					
 			//Updating the chest
-			for (final Location cLoc : new Location[] {x1,x2}) {
-				Chest chest = (Chest) cLoc.getBlock().getState();		
-				chest.setCustomName(player.getName() + "'s death chest!");
-				chest.update(true, true);
-			}
+			Chest chest = (Chest) x1.getBlock().getState();
+			chest.setCustomName(player.getName() + "'s death chest!");
+			chest.update();
+			
+//			for (final Location cLoc : new Location[] {x1,x2}) {
+//				Chest chest = (Chest) cLoc.getBlock().getState();		
+//				chest.setCustomName(player.getName() + "'s death chest!");
+//				chest.update();
+//			}
 			
 			//Adding items to chest
 			Bukkit.getScheduler().runTaskLaterAsynchronously(deathvault.thisPlugin, new Runnable(){
