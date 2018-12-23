@@ -13,6 +13,7 @@ public class deathvault extends JavaPlugin {
 	public void onEnable() {
 		deathvault.thisPlugin = this;
 		//Metrics
+		@SuppressWarnings("unused")
 		Metrics metrics = new Metrics(this);
 		
 		//Listener
