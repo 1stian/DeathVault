@@ -36,7 +36,6 @@ public class chestListener implements Listener {
 							Chest right = (Chest)dChest.getRightSide();
 							left.getBlock().setType(Material.AIR);
 							right.getBlock().setType(Material.AIR);
-							
 							deathvault.thisPlugin.getLogger().info(chest.getCustomName() + " removed!");
 						}
 					}
