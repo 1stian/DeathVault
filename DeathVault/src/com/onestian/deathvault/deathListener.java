@@ -2,6 +2,7 @@ package com.onestian.deathvault;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -23,6 +24,9 @@ public class deathListener implements Listener {
 	
 	@EventHandler
 	public void onDeath(EntityDeathEvent event) {
+		
+		String chestID;
+		
 		org.bukkit.block.data.type.Chest chestData1;
 		org.bukkit.block.data.type.Chest chestData2;
 		
@@ -76,9 +80,13 @@ public class deathListener implements Listener {
 			}
 					
 			//Updating the chest
+			int ident = randomInt(1000, 9999);
 			bChest = (org.bukkit.block.Chest) x1.getBlock().getState();
-			bChest.setCustomName(player.getName() + "'s death chest!");
+			bChest.setCustomName(player.getName() + "'s death chest! @" + ident);
 			bChest.update();
+			
+			//Adding chests to list
+			
 			
 			//Adding items to chest
 			Bukkit.getScheduler().runTaskLaterAsynchronously(deathvault.thisPlugin, new Runnable(){
@@ -102,4 +110,15 @@ public class deathListener implements Listener {
 					ChatColor.GREEN + " y: " + ChatColor.RED + loc.getBlockY() + ChatColor.GREEN + " z: " + ChatColor.RED + loc.getBlockZ(), player);
 		}
 	}
+	
+	private static int randomInt(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
+	}
+
 }
