@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.type.Chest.Type;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class deathListener implements Listener {
 		if (event.getEntityType() == EntityType.PLAYER) {
 			org.bukkit.block.Chest bChest;
 			
-			Player player = deathvault.thisPlugin.getServer().getPlayer(event.getEntity().getName());
+			Player player = (Player) event.getEntity();
 			Location loc = player.getLocation();
 			
 			final List<ItemStack> content = new ArrayList<ItemStack>();
@@ -36,9 +37,6 @@ public class deathListener implements Listener {
 			//Grabbing items from dead player!
 			for (final ItemStack item : event.getDrops()) {
 				content.add(item);
-				
-				//Debug line
-				//deathvault.thisPlugin.getLogger().info(item.toString());
 			}
 			
 			final ItemStack[] items = content.toArray(new ItemStack[content.size()]);
@@ -55,10 +53,7 @@ public class deathListener implements Listener {
 			Block block2 = x2.getBlock();
 			
 			//Placing chests
-			int itemAmount = 0;
-			for (final ItemStack item : items) {
-				itemAmount++;
-			}
+			int itemAmount = items.length;
 			//Single chest
 			if (itemAmount < 27) {
 				block1.setType(Material.CHEST);
@@ -93,9 +88,6 @@ public class deathListener implements Listener {
 					for (final ItemStack item : items) {
 						org.bukkit.block.Chest bChest = (org.bukkit.block.Chest) x1.getBlock().getState();
 						bChest.getInventory().addItem(item);
-						
-						//Debug line
-						//deathvault.thisPlugin.getLogger().info(item.toString());
 					}					
 				}
 				
@@ -103,9 +95,6 @@ public class deathListener implements Listener {
 			
 			//Clearing the drops. So it won't drop on the ground.
 			event.getDrops().clear();
-			
-			//Debug line
-			//deathvault.thisPlugin.getLogger().info(player.getLocation().getBlock().toString());
 			
 			//Sending messages to player. With chest location as well.
 			messageSender.messagePlayer("You died.. Get to your chest! Quick! Before someone else gets it!", player);
