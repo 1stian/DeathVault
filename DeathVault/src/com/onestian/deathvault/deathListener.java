@@ -78,7 +78,7 @@ public class deathListener implements Listener {
 				chestData2.setType(Type.RIGHT);
 				block2.setBlockData(chestData2, true);
 			}
-					
+			
 			//Updating the chest
 			int ident = randomInt(1000, 9999);
 			bChest = (org.bukkit.block.Chest) x1.getBlock().getState();
