@@ -120,5 +120,17 @@ public class deathListener implements Listener {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
-
+	
+	//Find safe location for chests. So it will not destroy buildings or other chests and such.
+	public static Location checkSafeLocation (Player player) {
+		Location chestLocation = player.getLocation();		
+		Material xB = chestLocation.getBlock().getType();
+		
+		if (!(xB == Material.AIR)) {
+			chestLocation.setX(chestLocation.getX() + 1);
+		}
+		
+		
+		return chestLocation;
+		}
 }
